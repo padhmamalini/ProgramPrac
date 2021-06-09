@@ -11,6 +11,15 @@ public:
     int data;//Linked list Data
      node *next; // Pointer - address to access
 };
+//To find whether the given linked list is empty
+bool isEmpty(node* head,string msg)
+{
+    if (head == NULL)
+    {
+        cout << "First create your linked list and try to " << msg<<endl;
+        return true;
+    }
+}
 /*Insert the element at the end
   Parameters: 
   head --> A reference to the head address that have been passed from main
@@ -73,7 +82,7 @@ void insertPos(node *head,int pos, int data)
 /*delete the element of the given position */
 void deleteNode(node **ref, int pos)
 {
-    if (*ref == NULL)
+    if (isEmpty(*ref,"delete the node of specified position"))
         return;
     node* temp = *ref;
     if (pos == 0)
@@ -100,6 +109,87 @@ void deleteLastNdoe(node** head)
     free(*head);   /**/
     *head = NULL;  
 }
+//Delete first node of the linked list
+void deleteFirstNode(node* &head)
+{
+    if (isEmpty(head,"delete first node"))
+        return;
+    node* temp = head;
+    head = (head)->next;
+    free(temp);
+    return;
+}
+void deleteAll(node* &head)
+{
+    if(isEmpty(head,"delete all nodes"))
+        return;
+    node* prev = head;
+    while (head)
+    {
+        head = head->next;
+        free(prev);
+        prev = head;
+    }
+    cout << "deleted all nodes";
+}
+//Delete all occurance of a number from the linked list.
+node* deleteAllBasedOnData(node *head,int num)
+{
+    if (isEmpty(head, "delete all occurance of the element"))
+        return NULL;
+    node *curr = head;
+    while (head->data == num)
+    {
+        if (head->next)
+        {
+            head = head->next;
+        }
+        else
+        {
+            cout << "Deleted given element from the linked list";
+            return NULL;
+        }
+    }
+    while (curr->next)
+    {
+        if (curr->next->data == num)
+        {
+            curr->next = curr->next->next;
+        }
+        else
+            curr = curr->next;
+    }
+    cout << "Deleted All occurance of the given data!!";
+    return head;
+}
+//Find the Duplicate element in the linked list and remove duplicate occurance from the linked list.
+void removeDuplicate(node* ref)
+{
+    node *temp1, *temp2, * duplicate;
+    temp1 = ref;
+    int flag = 0;
+    while (temp1 && temp1->next)
+    {
+        temp2 = temp1;
+        while (temp2->next)
+        {
+            if (temp1->data == temp2->next->data)
+            {
+                duplicate = temp2->next;
+                temp2->next = temp2->next->next;
+                free(duplicate);
+                flag++;
+            }
+            else
+            {
+                temp2 = temp2->next;
+            }
+        }
+        temp1 = temp1->next;
+    }
+    cout << "Number of duplicate elements :" << flag << " ,are removed from the linked list" << endl;
+    cout << "Linked list now contains only identical element!!" << endl;
+}
 //Update the element in the specific postion
 void updateList(node **ref, int pos, int element)
 {
@@ -108,11 +198,8 @@ void updateList(node **ref, int pos, int element)
         cout << "Position is invalid!! Position must be positive" << endl;
         return;
     }
-    if (*ref == NULL)
-    {
-        cout << "No elements available build your linked list first" << endl;
+    if (isEmpty(*ref,"update the linked list"))
         return;
-    }
     node* temp = *ref;
     int i;
     for (i = 0; temp != NULL && i < pos - 1; i++)
@@ -132,11 +219,8 @@ void sortList(node* head)
 {
     node* curr, * currNext;
     curr = head;
-    if (curr == NULL)
-    {
-        cout << "No Elements to sort. Build your own linked list and try sorting";
+    if (isEmpty(head,"sort the elements in it"))
         return;
-    }
     while(curr)
     {
         currNext = head;
@@ -156,11 +240,8 @@ void sortList(node* head)
 void search(node* head,int element)
 {
     int pos=1;
-    if (head == NULL)
-    {
-        cout << "No elements presented in the list. First build your linked list and try searching the element in it!!" << endl;
+    if (isEmpty(head,"search the element from the list"))
         return;
-    }
     while (head != NULL)
     {
         if (head->data == element)
@@ -173,14 +254,27 @@ void search(node* head,int element)
     }
     cout << "Element is not available in the list. Try new element" << endl;
 }
+//Get middle element of the linked list using Two pointer technique.
+void getMiddleEle(node* head)
+{
+    if (isEmpty(head,"get middle element from the linked list"))
+        return;
+    node* first = head;
+    node* sec = head;
+    int pos = 1;
+    while (sec && sec->next)
+    {
+        first = first->next;
+        sec = sec->next->next;
+        pos++;
+    }
+    cout << "Middle element of the given linked list is :" << first->data<<" , presented at the position :"<<pos<<endl;
+}
 //Reverse the linked list
 void reverseList(node** head)
 {
-    if (*head == NULL)
-    {
-        cout << "Prepare the linked first to reverse it" << endl;
+    if (isEmpty(*head,"reverst the list"))
         return;
-    }
     stack<node*> s; //Creating temp stack memory and storing it to list after reversing
     node* temp = *head;
     while (temp->next)
@@ -197,14 +291,27 @@ void reverseList(node** head)
     }
     temp->next = NULL;
 }
+/*Finding Loop using two pointer algorithm*/
+void detectLoop(node* head)
+{
+    node *ptr1 = head, *ptr2 = head;
+    while (ptr1 && ptr2 && ptr2->next)
+    {
+        ptr1 = ptr1->next;
+        ptr2 = ptr2->next->next;
+        if (ptr1 == ptr2)
+        {
+            cout << "Loop identified"<<endl;
+            return;
+        }
+    }
+    cout << "Loop not found!!"<<endl;
+}
 /* Print the Linked list*/
 void traverse(node* node)
 {
-    if (node == NULL)
-    {
-        cout << "No elements to print. Build your new list" << endl;
+    if (isEmpty(node,"traverse or print the list"))
         return;
-    }
     while (node != NULL)
     {
         cout << " " << node->data<<" -> ";
@@ -232,12 +339,18 @@ int option()
     cout << "Press 3 to insert the element at the specific position after which to be added" << endl;
     cout << "Press 4 to delete the element from the linked list from specific position" << endl;
     cout << "Press 5 to delete the last element from the linked list" << endl;
-    cout << "Press 6 to update the element of the specific position in linked list"<<endl;
-    cout << "Press 7 to sort the linked list" << endl;
-    cout << "Press 8 to find the element in the list" << endl;
-    cout << "Press 9 to Reverse the linked list" << endl;
-    cout << "Press 10 to print the list" << endl;
-    cout << "Press 11 to Quit!!" << endl;
+    cout << "Press 6 to delete the first element from the linnked list" << endl;
+    cout << "Press 7 to delete all elements" << endl;
+    cout << "Press 8 to delete all occurance of the number from the linked list" << endl;
+    cout << "Press 9 to delete the duplicate elements from the linked list" << endl;
+    cout << "Press 10 to update the element of the specific position in linked list"<<endl;
+    cout << "Press 11 to sort the linked list" << endl;
+    cout << "Press 12 to find the element in the list" << endl;
+    cout << "Press 13 to find the middle element from the linked list" << endl;
+    cout << "Press 14 to Reverse the linked list" << endl;
+    cout << "Press 15 to detect if there is loop in the linked list" << endl;
+    cout << "Press 16 to print the list" << endl;
+    cout << "Press 17 to Quit!!" << endl;
     cout << "==============================================" << endl;
     cin >> opt;
     cout << endl;
@@ -251,7 +364,7 @@ int main()
      node* head = NULL; // Initialis=zing with empty list
      int element; //Element to be added or deleted
      int position; // Position at which the insertion or deletion to be made
-     while (choice != 11)
+     while (choice != 17)
     {
         
         switch (choice)
@@ -298,6 +411,32 @@ int main()
         }
         case 6:
         {
+            //Remove first element from the linked list
+            deleteFirstNode(head);
+            break;
+        }
+        case 7:
+        {
+            //Delete all elements from linked list
+            deleteAll(head);
+            break;
+        }
+        case 8:
+        {
+            //Delete specific number from the linked list
+            cout << "Enter the element that need to be searched and deleted ";
+            cin >> element;
+            head= deleteAllBasedOnData(head,element);
+            break;
+        }
+        case 9:
+        {
+            //To remove duplicate occurance of the number from the linked list
+            removeDuplicate(head);
+            break;
+        }
+        case 10:
+        {
             //Update the element at the specific position
             cout << "Enter the Position of the element to be updated: ";
             cin >> position;
@@ -306,13 +445,13 @@ int main()
             updateList(&head, position, element);
             break;
         }
-        case 7:
+        case 11:
         {
             //To sort the available linked list
             sortList(head);
             break;
         }
-        case 8:
+        case 12:
         {
             //Search the element position in the linked list
             cout << "Enter the element that need to be searched in the list: ";
@@ -320,13 +459,25 @@ int main()
             search(head,element);
             break;
         }
-        case 9:
+        case 13:
+        {
+            //Get the middle element of the linked list using Two pointer technique
+            getMiddleEle(head);
+            break;
+        }
+        case 14:
         {
             //Reverse the linked list
             reverseList(&head);
             break;
         }
-        case 10:
+        case 15:
+        {
+            //Created loop to test while writing the code- head->next->next = head;
+            detectLoop(head);
+            break;
+        }
+        case 16:
         {
             // Print the element
             traverse(head);
@@ -340,4 +491,5 @@ int main()
         }
         choice = option();
     }
+    cout << "Quitinng!!! catch you later";
 }
