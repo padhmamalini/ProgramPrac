@@ -9,16 +9,18 @@ class node
 {
 public:
     int data;//Linked list Data
-     node *next; // Pointer - address to access
+     node *next; // Pointer - address to access 
 };
 //To find whether the given linked list is empty
 bool isEmpty(node* head,string msg)
 {
     if (head == NULL)
     {
-        cout << "First create your linked list and try to " << msg<<endl;
+        cout << "First create your linked list and try to " << msg << endl;
         return true;
     }
+    else
+        return false;
 }
 /*Insert the element at the end
   Parameters: 
@@ -217,10 +219,11 @@ void updateList(node **ref, int pos, int element)
 //Sort the given linked list
 void sortList(node* head)
 {
-    node* curr, * currNext;
-    curr = head;
+    
     if (isEmpty(head,"sort the elements in it"))
         return;
+    node* curr, * currNext;
+    curr = head;
     while(curr)
     {
         currNext = head;
@@ -246,7 +249,7 @@ void search(node* head,int element)
     {
         if (head->data == element)
         {
-            cout << "Element- "<<element<<" found at " << pos;
+            cout << "Element: "<<element<<" found at " << pos;
             return;
         }
         pos++;
@@ -358,7 +361,7 @@ int option()
 }
 int main()
 {
-    cout<<"Linked list Demo:" << endl;
+    cout<<"Singly Linked list Demo:" << endl;
     cout<<"=====================" << endl;
     int choice = option();
      node* head = NULL; // Initialis=zing with empty list
